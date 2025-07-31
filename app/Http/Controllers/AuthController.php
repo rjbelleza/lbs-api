@@ -21,7 +21,9 @@ class AuthController extends Controller
 
             Log::info('Request payload: ' . $request);
 
-            $user = User::where('email', $request->email)->first();
+            $user = User::where('email', $request->email)
+                            ->where('isActive', true)
+                            ->first();
 
             if (!$user || !Hash::check($request->password, $user->password)) {
                 throw ValidationException::withMessages([
