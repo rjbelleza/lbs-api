@@ -19,8 +19,6 @@ class AuthController extends Controller
                 'password' => 'required',
             ]);
 
-            Log::info('Request payload: ' . $request);
-
             $user = User::where('email', $request->email)
                             ->where('isActive', true)
                             ->first();
@@ -37,7 +35,8 @@ class AuthController extends Controller
 
             return response()->json([
                 'message' => 'Logged in successfully!',
-                'access_token' => $token,
+                'user' => $user,
+                'token' => $token,
             ]);
         } catch (Exception $e) {
             Log::error('Error logging in: ' . $e->getMessage());
